@@ -1,5 +1,6 @@
+import streamlit as st
+
 def is_prime(n: int) -> bool:
-    """Check if a number is prime."""
     if n < 2:
         return False
     if n == 2:
@@ -12,21 +13,21 @@ def is_prime(n: int) -> bool:
     return True
 
 def find_prime_sum(num: int):
-    """Find one prime pair that sums to num (num must be even)."""
     for i in range(2, num):
         if is_prime(i) and is_prime(num - i):
             return i, num - i
     return None
 
-# Ask the user for a single number
-num = int(input("Enter an even natural number: "))
+st.title("Prime Sum Finder")
+num = st.number_input("Enter an even natural number:", min_value=4, step=2)
 
-if num % 2 != 0:
-    print("Please enter an even number.")
-else:
-    pair = find_prime_sum(num)
-    if pair:
-        print(f"{num} = {pair[0]} + {pair[1]}")
+if num:
+    if num % 2 != 0:
+        st.warning("Please enter an even number.")
     else:
-        print(f"No prime pair found for {num}")
+        pair = find_prime_sum(num)
+        if pair:
+            st.success(f"{num} = {pair[0]} + {pair[1]}")
+        else:
+            st.error(f"No prime pair found for {num}")
 
